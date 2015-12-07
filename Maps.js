@@ -14,7 +14,8 @@ var gmaps =
   
  geocodeAddress:function(labels) {
     var geocoder = new google.maps.Geocoder();
-    
+    //console.log(mails);
+    //console.log(labels);
       for(var i=0; i < labels.length; i++)
       {
           gmaps.startgeocoding(labels[i],geocoder);
@@ -23,6 +24,7 @@ var gmaps =
   
   startgeocoding:function(currentlabel,geocoder)
   {
+    //console.log(currentmail);
       var adress = currentlabel.name;
       var newadress = adress.replace("Location:","");
       geocoder.geocode({'address': newadress},
@@ -31,7 +33,7 @@ var gmaps =
           if (status === google.maps.GeocoderStatus.OK)
           {
             var currentloc = results[0].geometry.location;
-            gmaps.createmarker(currentloc)
+            gmaps.createmarker(currentloc,newadress)
           } 
           if(status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) 
           {
@@ -44,11 +46,30 @@ var gmaps =
   },
   createmarker:function(currentloc,newadress)
   {
-          var marker = new google.maps.Marker({
-          position: currentloc,
-          map: map,
-          title: newadress
-        });
-        //https://developers.google.com/maps/documentation/javascript/examples/infowindow-simple
+    var marker = new google.maps.Marker
+    ({
+      position: currentloc,
+      map: map,
+      title: newadress
+    });
+    // var infowindow = new google.maps.InfoWindow
+    // ({
+    //     content: '<div id="content">'+
+    //   '<div id="siteNotice">'+
+    //   '</div>'+
+    //   '<h1 id="firstHeading" class="firstHeading">'+newadress+'</h1>'+
+    //   '<div id="bodyContent">'+
+    //   '<p>'+currentmail.snippet+'</p>'+
+    //   '<br>'+
+    //   '<br>'+
+    //   '<p>'+currentmail.subject+'</p>'+
+    //   '</div>'
+    // });
+        
+    marker.addListener('click', function() 
+    {
+      infowindow.open(map, marker);
+    });
   }
+        //https://developers.google.com/maps/documentation/javascript/examples/infowindow-simple
 }
