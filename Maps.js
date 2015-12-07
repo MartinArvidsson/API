@@ -1,3 +1,4 @@
+
 var gmaps = 
 {
   ConvertedCoordinates:[],
@@ -10,47 +11,44 @@ var gmaps =
       zoom: 3
     });
   },
-
-  geocodeAddress:function(labels) {
+  
+ geocodeAddress:function(labels) {
     var geocoder = new google.maps.Geocoder();
-    var i = 0;
-     setTimeout(function () 
-    {
-      if (i < labels.length) {            
-        gmaps.startgeocoding(labels[i],geocoder);             
+    
+      for(var i=0; i < labels.length; i++)
+      {
+          gmaps.startgeocoding(labels[i],geocoder);
       }
-      i++; 
-    }, 300)
   },
   
   startgeocoding:function(currentlabel,geocoder)
   {
       var adress = currentlabel.name;
       var newadress = adress.replace("Location:","");
-      console.log(newadress);
-      geocoder.geocode({'address': newadress}, 
+      geocoder.geocode({'address': newadress},
       function(results, status) 
       {
           if (status === google.maps.GeocoderStatus.OK)
           {
-            console.log(results);
-            //console.log(results[0].place_id);
             var currentloc = results[0].geometry.location;
-
             gmaps.createmarker(currentloc)
           } 
-          else 
+          if(status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) 
           {
-            alert('Geocode was not successful for the following reason: ' + status);
+            setTimeout(function(){
+                    gmaps.startgeocoding(currentlabel, geocoder);
+                }, 300)
+            console.log('Geocode was not successful for the following reason: ' + status);
           }
       });
   },
-  createmarker:function(currentloc)
+  createmarker:function(currentloc,newadress)
   {
           var marker = new google.maps.Marker({
           position: currentloc,
           map: map,
-          title: 'Hello World!'
+          title: newadress
         });
-  },
+        //https://developers.google.com/maps/documentation/javascript/examples/infowindow-simple
+  }
 }

@@ -1,7 +1,6 @@
 var mail = {
-  SORTLABEL:"Location/",
-  
   LABELS: [],
+  MAILS:[],
 
   loadGmailApi:function() 
   {
@@ -29,6 +28,30 @@ var mail = {
       //return mail.LABELIDS;
       //mail.appendMessages(mail.LABELS);
       gmaps.geocodeAddress(mail.LABELS);
+      mail.getallmails();
+    });
+  },
+  
+  getallmails:function()
+  {
+    var request = gapi.client.gmail.users.messages.list({
+      'userId': 'me'
+    });
+    
+    request.execute(function(resp) 
+    {
+      if (resp.messages && resp.messages.length > 0) 
+      {
+        for (var i = 0; i < resp.messages.length; i++) 
+        {
+          mail.MAILS.push(resp.messages[i]);
+          console.log(mail.MAILS);
+            // if(resp.messages[i].name.indexOf("Location:") > -1)//sort out any label that isnt nested in the "Location"-label
+            // {
+            //   mail.MAILS.push(resp.messages[i]);
+            // }
+        }
+      }
     });
   },
   
