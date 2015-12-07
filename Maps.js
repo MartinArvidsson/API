@@ -16,10 +16,10 @@ var gmaps =
     var i = 0;
      setTimeout(function () 
     {
-      i++;                     
       if (i < labels.length) {            
         gmaps.startgeocoding(labels[i],geocoder);             
-      }                        
+      }
+      i++; 
     }, 300)
   },
   
@@ -34,6 +34,10 @@ var gmaps =
           if (status === google.maps.GeocoderStatus.OK)
           {
             console.log(results);
+            //console.log(results[0].place_id);
+            var currentloc = results[0].geometry.location;
+
+            gmaps.createmarker(currentloc)
           } 
           else 
           {
@@ -41,10 +45,10 @@ var gmaps =
           }
       });
   },
-  createmarker:function(lat,long)
+  createmarker:function(currentloc)
   {
           var marker = new google.maps.Marker({
-          position: lat+","+long,
+          position: currentloc,
           map: map,
           title: 'Hello World!'
         });
