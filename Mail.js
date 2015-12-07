@@ -66,14 +66,15 @@ var mail = {
         if (resp.snippet != null) 
         {
             var item = {
-              subject:resp.payload.headers[16].value,
-              snippet:resp.snippet,
+              subject: resp.payload.headers[16].value,
+              snippet: resp.snippet,
             };
             mail.TOTALMAIL.push(item);
-            //console.log(mail.TOTALMAIL);
+            //console.log(mail.TOTALMAIL); //Fungerar här
         }
       });
-    }
+     }
     console.log(mail.TOTALMAIL);
+    //Inte här
   },
 };

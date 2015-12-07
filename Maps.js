@@ -65,6 +65,20 @@ var gmaps =
     //   '<p>'+currentmail.subject+'</p>'+
     //   '</div>'
     // });
+    
+    var infowindow = new google.maps.InfoWindow
+    ({
+      content: '<div id="content">'+
+      '<div id="siteNotice">'+
+      '</div>'+
+      '<h1 id="firstHeading" class="firstHeading">'+newadress+'</h1>'+
+      '<div id="bodyContent">'+
+      '<p>test</p>'+
+      '<br>'+
+      '<br>'+
+      '<p>test</p>'+
+      '</div>'
+    });
         
     marker.addListener('click', function() 
     {
