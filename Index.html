@@ -18,19 +18,19 @@
         padding: 0;
       }
       #map {
-        height: 70%;
+        height: 100%;
       }
     </style>
   </head>
   <body>
-    <div id="map"></div>  
     <div id="authorize-div">
-      <span>Authorize access to Gmail API</span>
+    <span>Authorize access to Gmail API</span>
       Button for the user to click to initiate auth sequence 
       <button id="authorize-button" onclick="authorize.handleAuthLogin(event)">
         Authorize
       </button>
     </div>
+    <div id="map"></div>  
     <pre id="output"></pre>
   </body>
 </html>

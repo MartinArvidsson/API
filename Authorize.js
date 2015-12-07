@@ -9,7 +9,7 @@ var authorize = {
    checkAuth:function() {
     gapi.auth.authorize(
       {
-        'client_id': authorize.CLIENT_ID,
+        'client_id':CLIENT_ID,
         'scope': authorize.SCOPES.join(' '),
         'immediate': true
       }, authorize.handleAuthResult);
@@ -27,6 +27,7 @@ var authorize = {
       // Hide auth UI, then load client library.
       authorizeDiv.style.display = 'none';
       mail.loadGmailApi();
+      mailMap.main();
     } 
     else 
     {

@@ -1,8 +1,8 @@
 "use strict";
 var mailMap = 
 {
-    main: function(){
+    main:function(){
         gmaps.initMap();
-        authorize.checkAuth();
+        //authorize.checkAuth();
     }
 };

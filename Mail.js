@@ -20,13 +20,25 @@ var mail = {
       {
         for (var i = 0; i < resp.labels.length; i++) 
         {
-            if(resp.labels[i].name.indexOf(mail.SORTLABEL) > -1)//sort out any label that isnt nested in the "Location"-label
+            if(resp.labels[i].name.indexOf("Location:") > -1)//sort out any label that isnt nested in the "Location"-label
             {
               mail.LABELS.push(resp.labels[i]);
             }
         }
       }
-       return mail.LABELIDS;
+      //return mail.LABELIDS;
+      //mail.appendMessages(mail.LABELS);
+      gmaps.geocodeAddress(mail.LABELS);
     });
   },
+  
+  appendMessages:function(message)
+  {
+    for (var i = 0; i < message.length; i++) 
+        {
+            var pre = document.getElementById('output');
+            var textContent = document.createTextNode(message[i].name + '\n');
+            pre.appendChild(textContent);
+        }
+  }
 }
