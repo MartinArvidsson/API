@@ -3,23 +3,6 @@ var mail = {
   
   LABELS: [],
 
-  MESSAGES: [],//test
-  listMails:function() 
-  {
-    var labelids = [];
-    mail.LABELS.forEach( function(l) { labelids.push(l.id); } );
-    
-    var request = gapi.client.gmail.users.messages.list({
-      'userId': 'me', 'labelIds': labelids
-    });
-    
-    request.execute(function(resp) {
-      mail.MESSAGES.push(resp);
-      console.log(resp);
-    });
-    
-  
-  },
   loadGmailApi:function() 
   {
     gapi.client.load('gmail', 'v1', mail.getLabels);
@@ -43,7 +26,6 @@ var mail = {
             }
         }
       }
-      mail.listMails();
        return mail.LABELIDS;
     });
   },
