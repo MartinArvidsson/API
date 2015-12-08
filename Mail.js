@@ -20,7 +20,7 @@ var mail = {
       {
         for (var i = 0; i < resp.labels.length; i++) 
         {
-            if(resp.labels[i].name.indexOf("Location:") > -1)//sort out any label that isnt nested in the "Location"-label
+            if(resp.labels[i].name.indexOf("Location:") > -1)
             {
               mail.getcurrentmail(resp.labels[i].id,resp.labels[i].name);
             }
@@ -61,7 +61,7 @@ var mail = {
         {
           entiremail = resp.payload.parts[0].parts[1].body.data;
         }
-        var decodedmail = atob( entiremail.replace(/-/g, '+').replace(/_/g, '/') );
+        var decodedmail = atob( entiremail.replace(/-/g, '+').replace(/_/g, '/'));
             var item = {
               label: labelname,
               subject: resp.payload.headers[16].value,
