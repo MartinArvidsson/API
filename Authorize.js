@@ -1,11 +1,8 @@
 var authorize = {
     
   CLIENT_ID:'762447237500-q4bv5dmtgve3p0akn5og4r58ne8t0h2l.apps.googleusercontent.com',
-  
+   
   SCOPES:['https://mail.google.com/'],
-  
-  SORTLABEL:"Location/",
-  
    checkAuth:function() {
     gapi.auth.authorize(
       {
