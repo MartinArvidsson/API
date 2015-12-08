@@ -12,20 +12,23 @@ var gmaps =
     });
   },
   
- geocodeAddress:function(labels) {
+ geocodeAddress:function(mails) {
     var geocoder = new google.maps.Geocoder();
-    //console.log(mails);
-    //console.log(labels);
-      for(var i=0; i < labels.length; i++)
+    console.log(mails);
+      for(var i=0; i < mails.length; i++)
       {
-          gmaps.startgeocoding(labels[i],geocoder);
+          gmaps.startgeocoding(mails[i],geocoder);
       }
   },
   
-  startgeocoding:function(currentlabel,geocoder)
+  startgeocoding:function(currentmail,geocoder)
   {
     //console.log(currentmail);
-      var adress = currentlabel.name;
+      var currentlabel = currentmail.label;
+      var currentsubject = currentmail.subject;
+      var currentsnippet = currentmail.snippet;
+      var adress = currentlabel;
+      
       var newadress = adress.replace("Location:","");
       geocoder.geocode({'address': newadress},
       function(results, status) 
@@ -33,56 +36,47 @@ var gmaps =
           if (status === google.maps.GeocoderStatus.OK)
           {
             var currentloc = results[0].geometry.location;
-            gmaps.createmarker(currentloc,newadress)
+            gmaps.createmarker(currentloc,currentsnippet,currentsubject,currentlabel)
           } 
           if(status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) 
           {
             setTimeout(function(){
-                    gmaps.startgeocoding(currentlabel, geocoder);
-                }, 300)
+                    gmaps.startgeocoding(currentmail,geocoder);
+                }, 300);
             console.log('Geocode was not successful for the following reason: ' + status);
           }
       });
   },
-  createmarker:function(currentloc,newadress)
+  createmarker:function(currentloc,currentsnippet,currentsubject,currentlabel)
   {
     var marker = new google.maps.Marker
     ({
       position: currentloc,
       map: map,
-      title: newadress
+      title: currentlabel
     });
-    // var infowindow = new google.maps.InfoWindow
-    // ({
-    //     content: '<div id="content">'+
-    //   '<div id="siteNotice">'+
-    //   '</div>'+
-    //   '<h1 id="firstHeading" class="firstHeading">'+newadress+'</h1>'+
-    //   '<div id="bodyContent">'+
-    //   '<p>'+currentmail.snippet+'</p>'+
-    //   '<br>'+
-    //   '<br>'+
-    //   '<p>'+currentmail.subject+'</p>'+
-    //   '</div>'
-    // });
     
     var infowindow = new google.maps.InfoWindow
     ({
       content: '<div id="content">'+
       '<div id="siteNotice">'+
       '</div>'+
-      '<h1 id="firstHeading" class="firstHeading">'+newadress+'</h1>'+
+      '<h1 id="firstHeading" class="firstHeading">'+currentlabel+'</h1>'+
       '<div id="bodyContent">'+
-      '<p>test</p>'+
+      '<p>'+currentsnippet+'</p>'+
       '<br>'+
-      '<br>'+
-      '<p>test</p>'+
+      '<p>'+currentsubject+'</p>'+
       '</div>'
     });
         
-    marker.addListener('click', function() 
+    marker.addListener('mouseover', function() 
     {
       infowindow.open(map, marker);
+    });
+    
+    marker.addListener('mouseout', function() 
+    {
+      infowindow.close(map, marker);
     });
   }
         //https://developers.google.com/maps/documentation/javascript/examples/infowindow-simple

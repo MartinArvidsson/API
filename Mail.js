@@ -16,65 +16,53 @@ var mail = {
 
     request.execute(function(resp) 
     {
+      //console.log(resp);
       if (resp.labels && resp.labels.length > 0) 
       {
         for (var i = 0; i < resp.labels.length; i++) 
         {
             if(resp.labels[i].name.indexOf("Location:") > -1)//sort out any label that isnt nested in the "Location"-label
             {
-              mail.LABELS.push(resp.labels[i]);
+              mail.getcurrentmail(resp.labels[i].id,resp.labels[i].name);
             }
         }
       }
-      gmaps.geocodeAddress(mail.LABELS);
-      mail.getallmails();
+      setTimeout(function() {gmaps.geocodeAddress(mail.TOTALMAIL);}, 3000);
     });
   },
   
-  getallmails:function()
+  getcurrentmail:function(labelid,labelname)
   {
     var request = gapi.client.gmail.users.messages.list({
-      'userId': 'me'
+      'userId': 'me',
+      'labelIds': labelid
     });
     
     request.execute(function(resp)
     {
-      //console.log(resp);
       if (resp.messages && resp.messages.length > 0) 
       {
-        for(var i = 0; i < resp.messages.length; i++)
-        {
-          mail.MAILS.push(resp.messages[i]);
-        }
-        mail.listallmails();
+        setTimeout(function() {mail.listcurrentmail(labelname,resp.messages[0].id);}, 700);
       }
     });
   },
   
-  listallmails:function()
+  listcurrentmail:function(labelname,message)
   {
-    for (var i = 0; i < mail.MAILS.length; i++) 
-    {
       var request = gapi.client.gmail.users.messages.get
       ({
           'userId': 'me',
-          'id': mail.MAILS[i].id
+          'id': message
       });
       
-      request.execute(function(resp) 
-      {
-        if (resp.snippet != null) 
-        {
+      request.execute(function(resp)
+      { 
             var item = {
+              label: labelname,
               subject: resp.payload.headers[16].value,
               snippet: resp.snippet,
             };
-            mail.TOTALMAIL.push(item);
-            //console.log(mail.TOTALMAIL); //Fungerar här
-        }
+              mail.TOTALMAIL.push(item);
       });
-     }
-    console.log(mail.TOTALMAIL);
-    //Inte här
   },
 };
