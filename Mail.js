@@ -16,7 +16,6 @@ var mail = {
 
     request.execute(function(resp) 
     {
-      //console.log(resp);
       if (resp.labels && resp.labels.length > 0) 
       {
         for (var i = 0; i < resp.labels.length; i++) 
@@ -27,7 +26,7 @@ var mail = {
             }
         }
       }
-      setTimeout(function() {gmaps.geocodeAddress(mail.TOTALMAIL);}, 3000);
+      setTimeout(function() {gmaps.geocodeAddress(mail.TOTALMAIL);}, 2000);
     });
   },
   
@@ -56,7 +55,6 @@ var mail = {
       });
       request.execute(function(resp)
       {
-        //console.log(resp);
         var entiremail = resp.payload.parts[1].body.data;
         
         if(entiremail === undefined)
@@ -64,8 +62,6 @@ var mail = {
           entiremail = resp.payload.parts[0].parts[1].body.data;
         }
         var decodedmail = atob( entiremail.replace(/-/g, '+').replace(/_/g, '/') );
-        
-        //console.log(decodedmail);
             var item = {
               label: labelname,
               subject: resp.payload.headers[16].value,

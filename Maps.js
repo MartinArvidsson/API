@@ -7,7 +7,7 @@ var gmaps =
   initMap:function() 
   {
     map = new google.maps.Map(document.getElementById('map'), {
-      center: {lat:15,lng:0},//{lat: -34.397, lng: 150.644},
+      center: {lat:15,lng:0},
       zoom: 3
     });
   },
@@ -22,7 +22,6 @@ var gmaps =
   
   startgeocoding:function(currentmail,geocoder)
   {
-    //console.log(currentmail);
       var currentlabel = currentmail.label;
       var currentsubject = currentmail.subject;
       var currentsnippet = currentmail.snippet;
@@ -45,7 +44,10 @@ var gmaps =
             setTimeout(function(){
                     gmaps.startgeocoding(currentmail,geocoder);
                 }, 300);
-            console.log('Geocode was not successful for the following reason: ' + status);
+          }
+          if(status === google.maps.GeocoderStatus.ZERO_RESULTS)
+          {
+            console.log(newadress);
           }
       });
   },
@@ -60,9 +62,7 @@ var gmaps =
     
     var infowindow = new google.maps.InfoWindow
     ({
-      content: '<div id="content">'+
-      '<div id="siteNotice">'+
-      '</div>'+
+      content: '<div id="infocontent">'+
       '<h1 id="firstHeading" class="firstHeading">'+currentlabel+'</h1>'+
       '<div id="bodyContent">'+
       '<p>'+currentsnippet+'</p>'+
@@ -76,12 +76,7 @@ var gmaps =
     marker.addListener('mouseover', function() 
     {
       infowindow.open(map, marker);
-    });
-    
-    marker.addListener('mouseout', function() 
-    {
-      infowindow.close(map, marker);
+      disableAutoPan:true;
     });
   }
-        //https://developers.google.com/maps/documentation/javascript/examples/infowindow-simple
 }

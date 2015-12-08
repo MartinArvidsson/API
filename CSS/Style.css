@@ -1,0 +1,34 @@
+
+html, body {
+height: 100%;
+margin: 0;
+padding: 0;
+background-image:url("Wallpaper.jpg");
+}
+#map {
+    height: 100%;
+}
+#authorize-div{
+    text-align:center;
+}
+#authorize-button{
+    position: absolute;
+    top: 50%;
+    width: 150px;
+    height: 70px;
+    font-style: italic;
+    border-radius: 25px;
+    border-color: black;
+    background-color: slategrey;
+    color: white;
+    font-size: large;
+}
+
+#authorize-button:hover{
+    background-color: lightgray;
+    color: black;
+}
+#infocontent{
+    overflow-y:scroll;
+    height:300px;
+}

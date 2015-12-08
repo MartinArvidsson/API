@@ -8,26 +8,15 @@
     <script src="Main.js"></script>
     <script src="Mail.js"></script>
     <script src="Authorize.js"></script>
+    <link rel="stylesheet" type="text/css" href="CSS/Style.css">
     <script src="https://apis.google.com/js/client.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9ZbSsM5sUtz9zJBUdSVQ1rbbZb_utiUg" async defer></script>
     </script>
-    <style>
-      html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      #map {
-        height: 100%;
-      }
-    </style>
   </head>
   <body>
     <div id="authorize-div">
-    <span>Authorize access to Gmail API</span>
-      Button for the user to click to initiate auth sequence 
       <button id="authorize-button" onclick="authorize.handleAuthLogin(event)">
-        Authorize
+        Login to see mails
       </button>
     </div>
     <div id="map"></div>  
