@@ -54,13 +54,23 @@ var mail = {
           'userId': 'me',
           'id': message
       });
-      
       request.execute(function(resp)
-      { 
+      {
+        //console.log(resp);
+        var entiremail = resp.payload.parts[1].body.data;
+        
+        if(entiremail === undefined)
+        {
+          entiremail = resp.payload.parts[0].parts[1].body.data;
+        }
+        var decodedmail = atob( entiremail.replace(/-/g, '+').replace(/_/g, '/') );
+        
+        //console.log(decodedmail);
             var item = {
               label: labelname,
               subject: resp.payload.headers[16].value,
               snippet: resp.snippet,
+              fullmail:decodedmail,
             };
               mail.TOTALMAIL.push(item);
       });

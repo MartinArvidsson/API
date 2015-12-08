@@ -14,7 +14,6 @@ var gmaps =
   
  geocodeAddress:function(mails) {
     var geocoder = new google.maps.Geocoder();
-    console.log(mails);
       for(var i=0; i < mails.length; i++)
       {
           gmaps.startgeocoding(mails[i],geocoder);
@@ -27,6 +26,9 @@ var gmaps =
       var currentlabel = currentmail.label;
       var currentsubject = currentmail.subject;
       var currentsnippet = currentmail.snippet;
+      var currenttotalmail = currentmail.fullmail;
+      
+      var currentcutmail = currenttotalmail.substr(0,700) +"...";
       var adress = currentlabel;
       
       var newadress = adress.replace("Location:","");
@@ -36,7 +38,7 @@ var gmaps =
           if (status === google.maps.GeocoderStatus.OK)
           {
             var currentloc = results[0].geometry.location;
-            gmaps.createmarker(currentloc,currentsnippet,currentsubject,currentlabel)
+            gmaps.createmarker(currentloc,currentsnippet,currentsubject,currentlabel,currentcutmail)
           } 
           if(status === google.maps.GeocoderStatus.OVER_QUERY_LIMIT) 
           {
@@ -47,7 +49,7 @@ var gmaps =
           }
       });
   },
-  createmarker:function(currentloc,currentsnippet,currentsubject,currentlabel)
+  createmarker:function(currentloc,currentsnippet,currentsubject,currentlabel,currenttotalmail)
   {
     var marker = new google.maps.Marker
     ({
@@ -66,6 +68,8 @@ var gmaps =
       '<p>'+currentsnippet+'</p>'+
       '<br>'+
       '<p>'+currentsubject+'</p>'+
+      '<br>'+
+      '<p>'+currenttotalmail+'</p>'+
       '</div>'
     });
         
