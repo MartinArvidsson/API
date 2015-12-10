@@ -7,13 +7,14 @@ var mail = {
   {
     gapi.client.load('gmail', 'v1', mail.getLabels);
   },
-
+  
+  //Gets the labels from the useraccount
   getLabels:function() 
   {
     var request = gapi.client.gmail.users.labels.list({
       'userId': 'me'
     });
-
+    //We have done a request now to print the data and get a mail where the label string contains "Location:".
     request.execute(function(resp) 
     {
       if (resp.labels && resp.labels.length > 0) 
@@ -22,14 +23,17 @@ var mail = {
         {
             if(resp.labels[i].name.indexOf("Location:") > -1)
             {
+              //Takes the label and sends it to getcurrentmail, this gets information about the mail matching the label.
               mail.getcurrentmail(resp.labels[i].id,resp.labels[i].name);
             }
         }
       }
+      //Waits 2 sec. before starting to geocode adress, this allows us to finish the array before moving on.
       setTimeout(function() {gmaps.geocodeAddress(mail.TOTALMAIL);}, 2000);
     });
   },
   
+  //Gets mailinformation that we send to listcurrentmail after 0.7 seconds..
   getcurrentmail:function(labelid,labelname)
   {
     var request = gapi.client.gmail.users.messages.list({
@@ -46,6 +50,7 @@ var mail = {
     });
   },
   
+  //Lists information about the mail , gets the snippet, the subject, the entire mail even..
   listcurrentmail:function(labelname,message)
   {
       var request = gapi.client.gmail.users.messages.get
@@ -68,6 +73,7 @@ var mail = {
               snippet: resp.snippet,
               fullmail:decodedmail,
             };
+            //Adds the finished mail object to an array.
               mail.TOTALMAIL.push(item);
       });
   },

@@ -23,6 +23,7 @@ var authorize = {
     {
       // Hide auth UI, then load client library.
       authorizeDiv.style.display = 'none';
+      //If the auth process is sucessful we remove the button from the page, and we start loading the gmailapi aswell as the gmaps api.
       mail.loadGmailApi();
       mailMap.main();
     } 

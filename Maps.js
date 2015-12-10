@@ -4,6 +4,7 @@ var gmaps =
   ConvertedCoordinates:[],
   
   map:{},
+  //Creates a new worldmap zoomed out to see enough of the world.
   initMap:function() 
   {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -12,6 +13,7 @@ var gmaps =
     });
   },
   
+  //For each mail in mailarray start geocoding session that finishes by placing marker.
  geocodeAddress:function(mails) {
     var geocoder = new google.maps.Geocoder();
       for(var i=0; i < mails.length; i++)
@@ -20,6 +22,8 @@ var gmaps =
       }
   },
   
+  //Gets the current mail in the array takes the correct information needed for the infolabel
+  //Converts adress to geocoding and applies that to where the marker will be placed
   startgeocoding:function(currentmail,geocoder)
   {
       var currentlabel = currentmail.label;
@@ -51,6 +55,8 @@ var gmaps =
           }
       });
   },
+  
+  //Creates the marker with the mailinformation.
   createmarker:function(currentloc,currentsnippet,currentsubject,currentlabel,currenttotalmail)
   {
     var marker = new google.maps.Marker
@@ -72,7 +78,9 @@ var gmaps =
       '<p>'+currenttotalmail+'</p>'+
       '</div>'
     });
-        
+    
+    
+    //When hovering over the label it opens..
     marker.addListener('mouseover', function() 
     {
       infowindow.open(map, marker);
